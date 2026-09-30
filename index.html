@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f2e7">
+<title>Mijn Weekmenu</title>
+<style>
+:root{--g:#2e6b4d;--gd:#214f3a;--bg:#f7f2e7;--card:#fff;--ink:#17241e;--muted:#6d756f;--line:#e7e0d4}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#ece7dd;color:var(--ink)}
+.app{max-width:520px;margin:auto;min-height:100vh;background:linear-gradient(#fbf8f1,#f5efe3);padding:18px 16px 105px}
+.top{display:flex;justify-content:space-between;align-items:center}.brand{display:flex;gap:10px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:var(--g);display:grid;place-items:center;font-size:22px}.brand h1{font-size:21px;margin:0}.brand small{color:var(--muted)}
+h2{font-size:32px;line-height:1.05;margin:24px 0 8px}p{color:var(--muted);line-height:1.45}
+.panel,.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 28px rgba(25,40,32,.07)}
+.panel{padding:16px}.set{margin-bottom:16px}.set:last-child{margin:0}.setline{display:flex;justify-content:space-between;gap:12px;align-items:center}.set b{font-size:14px}.out{background:#edf3ed;color:var(--g);font-weight:800;border-radius:12px;padding:7px 9px;font-size:12px}input[type=range]{width:100%;accent-color:var(--g)}
+.chips{display:flex;gap:8px;overflow:auto;padding:3px 0}.chip{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 11px;white-space:nowrap}.chip.on{background:var(--g);color:white;border-color:var(--g)}
+.cta{border:0;width:100%;background:var(--g);color:white;font-weight:800;border-radius:16px;padding:14px;margin-top:14px}
+.section{display:flex;align-items:end;justify-content:space-between;margin:22px 2px 10px}.section h3{margin:0}.link{border:0;background:none;color:var(--g);font-weight:800}
+.recipes{display:grid;gap:10px}.recipe{display:grid;grid-template-columns:105px 1fr;overflow:hidden}.pic{min-height:135px;display:grid;place-items:end start;padding:9px;font-size:28px;background:radial-gradient(circle,#efcc7a 0 25%,#c98645 26% 36%,#789660 37% 48%,#d8c7a8 49%)}.rb{padding:12px}.tags{display:flex;gap:5px;flex-wrap:wrap}.tag{font-size:10px;background:#edf3ed;color:var(--g);border-radius:999px;padding:4px 7px;font-weight:800}.rb h4{margin:7px 0 5px;font-size:15px}.rb p{margin:0 0 8px;font-size:11px}.price{font-weight:900;color:var(--g);font-size:12px}
+.budget{margin-top:12px;background:var(--gd);color:white;border-radius:21px;padding:16px;display:flex;justify-content:space-between;align-items:center}.budget small{opacity:.75}.budget b{font-size:22px}.ring{width:55px;height:55px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#e5aa5e var(--pct),rgba(255,255,255,.18) 0);position:relative}.ring:after{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--gd)}.ring span{z-index:1;font-size:11px;font-weight:900}
+.soup{margin-top:12px;background:#fff6df;border:1px solid #ead9ad;border-radius:18px;padding:13px;display:flex;justify-content:space-between;align-items:center}.toggle{width:45px;height:27px;border-radius:20px;background:#c7c9c7;position:relative}.toggle:after{content:"";position:absolute;width:21px;height:21px;background:white;border-radius:50%;left:3px;top:3px;transition:.2s}.toggle.on{background:var(--g)}.toggle.on:after{left:21px}
+.shop{padding:7px 14px}.shoprow{display:grid;grid-template-columns:30px 1fr auto;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid #f0ece4}.shoprow:last-child{border:0}.shoprow.done{opacity:.45}.shoprow.done b{text-decoration:line-through}.ico{width:30px;height:30px;border-radius:9px;background:#edf3ed;display:grid;place-items:center}.shoprow b{font-size:12px}.shoprow small{display:block;font-size:10px;color:var(--muted)}.qty{font-size:11px;font-weight:900;color:var(--g)}
+.screen{display:none}.screen.active{display:block}.nav{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);width:min(488px,calc(100% - 24px));display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:22px;padding:9px;box-shadow:0 12px 35px rgba(0,0,0,.12);backdrop-filter:blur(14px)}.nav button{border:0;background:none;color:#7f867f;font-size:10px}.nav button.on{color:var(--g);font-weight:900}.nav i{display:block;font-size:20px;font-style:normal}
+.settingcard{padding:16px;margin-bottom:12px}.settingcard h3{margin-top:0}.empty{padding:30px;text-align:center;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);align-items:flex-end;justify-content:center;z-index:50}.modal.on{display:flex}.sheet{width:min(520px,100%);background:white;border-radius:28px 28px 0 0;padding:22px;max-height:85vh;overflow:auto}.sheet h3{font-size:24px;margin-top:0}.sheet li{margin:8px 0}.close{width:100%;border:0;border-radius:14px;padding:13px;background:#edf3ed;color:var(--g);font-weight:800}
+@media(min-width:700px){body{padding:22px}.app{border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,.12)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">🍽️</div><div><h1>Mijn Weekmenu</h1><small>slim plannen · minder verspillen</small></div></div><b>M</b></header>
+
+<section class="screen active" data-screen="menu">
+<h2>Wat eten we<br>deze week?</h2><p>Stel je gezin, aantal gerechten en budget in. De demo past menu, prijs en boodschappen automatisch aan.</p>
+<div class="panel">
+<div class="set"><div class="setline"><b>Voor hoeveel personen?</b><span class="out" id="personsOut"></span></div><input id="persons" type="range" min="1" max="8"></div>
+<div class="set"><div class="setline"><b>Aantal gerechten</b><span class="out" id="dishesOut"></span></div><input id="dishes" type="range" min="2" max="5"></div>
+<div class="set"><div class="setline"><b>Weekbudget</b><span class="out" id="budgetOut"></span></div><input id="budget" type="range" min="30" max="140" step="5"></div>
+<div class="chips"><button class="chip on">Gevarieerd</button><button class="chip">Snel</button><button class="chip">Vegetarisch</button><button class="chip">Kids</button><button class="chip">Budget</button></div>
+<button class="cta" id="generate">Maak mijn weekmenu</button>
+</div>
+<div class="section"><h3>Jouw menu</h3><button class="link" id="refresh">Vernieuw ↻</button></div>
+<div class="recipes" id="recipeGrid"></div>
+<div class="budget"><div><small>Geschatte kost weekmenu</small><br><b id="total"></b><br><small id="caption"></small></div><div class="ring" id="ring"><span id="pct"></span></div></div>
+<div class="soup" id="soup"><div><b>🥣 Soep toevoegen?</b><br><small>Tomatensoep · extra aankoop ± € 4,60</small></div><div class="toggle" id="soupToggle"></div></div>
+<div class="section"><h3>Boodschappenlijst</h3><button class="link" data-go="list">Alles bekijken</button></div><div class="card shop" id="shopPreview"></div>
+</section>
+
+<section class="screen" data-screen="recipes"><h2>Recepten</h2><p>Tik op een recept voor de ingrediënten.</p><div class="recipes" id="allRecipes"></div></section>
+<section class="screen" data-screen="list"><h2>Boodschappen</h2><p id="progress"></p><div class="card shop" id="fullShop"></div></section>
+<section class="screen" data-screen="settings"><h2>Instellingen</h2><div class="card settingcard"><h3>Bronnen</h3><p>Recepten: Colruyt Lekker Koken + demo-recepten</p><p>Boodschappen: ingedeeld voor Collect&Go</p></div><div class="card settingcard"><h3>Demo</h3><p>Je keuzes worden lokaal op dit toestel bewaard.</p></div></section>
+</div>
+
+<nav class="nav"><button class="on" data-go="menu"><i>⌂</i>Weekmenu</button><button data-go="recipes"><i>♡</i>Recepten</button><button data-go="list"><i>☑</i>Lijst</button><button data-go="settings"><i>⚙︎</i>Instellingen</button></nav>
+<div class="modal" id="modal"><div class="sheet"><div id="detail"></div><button class="close" id="close">Sluiten</button></div></div>
+
+<script>
+const rec=[
+{icon:'🍝',title:'One-pot pasta met 4 groenten',time:30,tag:'Vegetarisch',price:12.8,ing:['Pasta','Courgette','Paprika','Tomaat','Spinazie','Mozzarella']},
+{icon:'🍗',title:'Kip met krieltjes & broccoli',time:35,tag:'Kip',price:16.4,ing:['Kipfilet','Krieltjes','Broccoli','Boontjes','Citroen']},
+{icon:'🥘',title:'Gele curry met kikkererwten',time:25,tag:'Veggie',price:13.9,ing:['Kikkererwten','Kokosmelk','Wortelen','Currypasta','Rijst']},
+{icon:'🐟',title:'Zalm uit de oven met prei',time:30,tag:'Vis',price:18.2,ing:['Zalm','Prei','Aardappelen','Citroen','Dille']},
+{icon:'🌮',title:'Zachte taco’s met gehakt',time:25,tag:'Kids',price:15.6,ing:['Tortilla','Gehakt','Maïs','Tomaten','Sla','Kaas']}
+];
+const items=[['🥬','Courgette','Groenten & fruit',.5,'st.'],['🌶️','Rode paprika','Groenten & fruit',.5,'st.'],['🥬','Verse spinazie','Groenten & fruit',.5,'zak'],['🧀','Mozzarella','Zuivel & kaas',.25,'zak'],['🍗','Kippenborstfilet','Beenhouwerij',150,'g'],['🥔','Krieltjes','Aardappelen',250,'g'],['🥦','Broccoli','Groenten & fruit',.25,'st.'],['🥫','Kikkererwten','Conserven',.5,'blik'],['🥥','Kokosmelk','Wereldkeuken',.25,'blik'],['🍚','Basmati rijst','Droge voeding',75,'g']];
+let s={p:+localStorage.p||4,d:+localStorage.d||3,b:+localStorage.b||65,off:+localStorage.off||0,soup:localStorage.soup==='1',done:JSON.parse(localStorage.done||'[]')};
+const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
+const euro=n=>'€ '+n.toFixed(2).replace('.',',');
+function chosen(){return Array.from({length:s.d},(_,i)=>rec[(i+s.off)%rec.length])}
+function card(r,i){return '<article class="card recipe" data-r="'+i+'"><div class="pic">'+r.icon+'</div><div class="rb"><div class="tags"><span class="tag">'+r.time+' min</span><span class="tag">'+r.tag+'</span></div><h4>'+r.title+'</h4><p>Eenvoudig weekrecept, afgestemd op je gezin.</p><span class="price">± '+euro(r.price*s.p/4)+'</span></div></article>'}
+function qty(x){let n=x[3]*s.p;return x[4]==='g'?Math.round(n)+' g':(Number.isInteger(n)?n:n.toFixed(1).replace('.',','))+' '+x[4]}
+function renderShop(full){let a=items.slice(0,Math.min(items.length,4+s.d*2));return a.map((x,i)=>'<div class="shoprow '+(s.done.includes(i)?'done':'')+'" data-item="'+i+'"><div class="ico">'+x[0]+'</div><div><b>'+x[1]+'</b><small>'+x[2]+'</small></div><div class="qty">'+qty(x)+'</div></div>').join('')}
+function render(){
+persons.value=s.p;dishes.value=s.d;budget.value=s.b;personsOut.textContent=s.p+' personen';dishesOut.textContent=s.d+' gerechten';budgetOut.textContent='€ '+s.b;
+recipeGrid.innerHTML=chosen().map((r,i)=>card(r,(i+s.off)%rec.length)).join('');allRecipes.innerHTML=rec.map((r,i)=>card(r,i)).join('');
+let t=chosen().reduce((a,r)=>a+r.price*s.p/4,0)+(s.soup?4.6*s.p/4:0),pc=Math.min(100,Math.round(t/s.b*100));total.textContent=euro(t);caption.textContent='van je budget van € '+s.b;pct.textContent=pc+'%';ring.style.setProperty('--pct',pc+'%');soupToggle.classList.toggle('on',s.soup);
+shopPreview.innerHTML=renderShop(false);fullShop.innerHTML=renderShop(true);let count=$$('#fullShop .shoprow').length,done=s.done.filter(i=>i<count).length;progress.textContent=done+' van '+count+' afgevinkt';
+localStorage.p=s.p;localStorage.d=s.d;localStorage.b=s.b;localStorage.off=s.off;localStorage.soup=s.soup?'1':'0';localStorage.done=JSON.stringify(s.done);
+$$('[data-r]').forEach(el=>el.onclick=()=>{let r=rec[+el.dataset.r];detail.innerHTML='<h3>'+r.icon+' '+r.title+'</h3><p>'+r.time+' min · '+r.tag+' · '+s.p+' personen</p><h4>Ingrediënten</h4><ul>'+r.ing.map(x=>'<li>'+x+'</li>').join('')+'</ul>';modal.classList.add('on')});
+$$('#fullShop .shoprow').forEach(el=>el.onclick=()=>{let i=+el.dataset.item;s.done=s.done.includes(i)?s.done.filter(x=>x!==i):[...s.done,i];render()});
+}
+persons.oninput=e=>{s.p=+e.target.value;render()};dishes.oninput=e=>{s.d=+e.target.value;render()};budget.oninput=e=>{s.b=+e.target.value;render()};
+generate.onclick=refresh.onclick=()=>{s.off=(s.off+1)%rec.length;render()};soup.onclick=()=>{s.soup=!s.soup;render()};
+$$('.chip').forEach(c=>c.onclick=()=>{$$('.chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');s.off=(s.off+1)%rec.length;render()});
+$$('[data-go]').forEach(b=>b.onclick=()=>{let n=b.dataset.go;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===n));$$('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.go===n));scrollTo(0,0)});
+close.onclick=()=>modal.classList.remove('on');modal.onclick=e=>{if(e.target===modal)modal.classList.remove('on')};render();
+</script>
+</body>
+</html>
