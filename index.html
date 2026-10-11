@@ -25,6 +25,10 @@ h2{font-size:32px;line-height:1.05;margin:24px 0 8px}p{color:var(--muted);line-h
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);align-items:flex-end;justify-content:center;z-index:50}.modal.on{display:flex}.sheet{width:min(520px,100%);background:white;border-radius:28px 28px 0 0;padding:22px;max-height:85vh;overflow:auto}.sheet h3{font-size:24px;margin-top:0}.sheet li{margin:8px 0}.close{width:100%;border:0;border-radius:14px;padding:13px;background:#edf3ed;color:var(--g);font-weight:800}
 @media(min-width:700px){body{padding:22px}.app{border-radius:30px;box-shadow:0 20px 60px rgba(0,0,0,.12)}}
 </style>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="v3.css?v=3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
 <div class="app">
@@ -55,124 +59,6 @@ h2{font-size:32px;line-height:1.05;margin:24px 0 8px}p{color:var(--muted);line-h
 <div class="modal" id="modal"><div class="sheet"><div id="detail"></div><button class="close" id="close">Sluiten</button></div></div>
 
 <script src="recipes.js"></script>
-<script>
-const rec=window.WEEKMENU_RECIPES||[];
-const soupRecipe=window.WEEKMENU_SOUP||{title:'Tomatensoep',price4:4.6,ingredients:[]};
-const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
-const euro=n=>'€ '+n.toFixed(2).replace('.',',');
-const rawDone=(()=>{try{return JSON.parse(localStorage.done||'[]')}catch{return []}})();
-let s={
-  p:+localStorage.p||4,
-  d:+localStorage.d||3,
-  b:+localStorage.b||65,
-  off:+localStorage.off||0,
-  soup:localStorage.soup==='1',
-  filter:localStorage.filter||'Gevarieerd',
-  done:Array.isArray(rawDone)?rawDone.filter(x=>typeof x==='string'):[]
-};
-
-function filteredRecipes(){
-  if(s.filter==='Gevarieerd') return rec;
-  return rec.filter(r=>(r.tags||[]).includes(s.filter));
-}
-function chosen(){
-  const pool=filteredRecipes();
-  if(!pool.length) return [];
-  const amount=Math.min(s.d,pool.length);
-  return Array.from({length:amount},(_,i)=>pool[(i+s.off)%pool.length]);
-}
-function scaleQty(q){return q*s.p/4}
-function formatQty(n,unit){
-  if(unit==='g'||unit==='ml') return Math.round(n)+' '+unit;
-  const rounded=Math.round(n*10)/10;
-  return (Number.isInteger(rounded)?rounded:rounded.toFixed(1).replace('.',','))+' '+unit;
-}
-function ingredientKey(x){return [x.name,x.unit,x.aisle].join('|').toLowerCase()}
-function shoppingItems(){
-  const map=new Map();
-  const recipes=[...chosen(),...(s.soup?[soupRecipe]:[])];
-  recipes.forEach(r=>(r.ingredients||[]).forEach(x=>{
-    const key=ingredientKey(x);
-    const qty=scaleQty(+x.qty||0);
-    if(map.has(key)) map.get(key).qty+=qty;
-    else map.set(key,{...x,qty,key});
-  }));
-  return [...map.values()].sort((a,b)=>(a.aisle||'').localeCompare(b.aisle||'')||a.name.localeCompare(b.name));
-}
-function aisleIcon(aisle=''){
-  const a=aisle.toLowerCase();
-  if(a.includes('groenten')||a.includes('aardappel')) return '🥬';
-  if(a.includes('beenhouwer')) return '🍗';
-  if(a.includes('vis')) return '🐟';
-  if(a.includes('zuivel')||a.includes('kaas')) return '🧀';
-  if(a.includes('diepvries')) return '❄️';
-  if(a.includes('wereld')) return '🌍';
-  if(a.includes('conserven')||a.includes('sauzen')) return '🥫';
-  return '🛒';
-}
-function card(r,i){
-  const tags=(r.tags||[]).slice(0,3).map(t=>'<span class="tag">'+t+'</span>').join('');
-  const pic=r.image
-    ? '<div class="pic" style="background-image:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.12)),url(&quot;'+r.image+'&quot;);background-size:cover;background-position:center"><span>'+r.icon+'</span></div>'
-    : '<div class="pic">'+r.icon+'</div>';
-  return '<article class="card recipe" data-r="'+i+'">'+pic+'<div class="rb"><div class="tags"><span class="tag">'+r.time+' min</span>'+tags+'</div><h4>'+r.title+'</h4><p>'+(r.source?'Bron: '+r.source:'Weekmenu')+'</p><span class="price">± '+euro((r.price4||0)*s.p/4)+'</span></div></article>';
-}
-function renderShop(limit){
-  const all=shoppingItems();
-  const list=limit?all.slice(0,limit):all;
-  if(!list.length) return '<div class="empty">Kies eerst recepten om je boodschappenlijst op te bouwen.</div>';
-  return list.map(x=>'<div class="shoprow '+(s.done.includes(x.key)?'done':'')+'" data-item="'+encodeURIComponent(x.key)+'"><div class="ico">'+aisleIcon(x.aisle)+'</div><div><b>'+x.name+'</b><small>'+(x.aisle||'Overig')+(x.storage?' · '+x.storage:'')+'</small></div><div class="qty">'+formatQty(x.qty,x.unit)+'</div></div>').join('');
-}
-function showRecipe(r){
-  const ingredientHtml=(r.ingredients||[]).map(x=>'<li>'+x.name+' — '+formatQty(scaleQty(+x.qty||0),x.unit)+'</li>').join('');
-  const source=r.sourceUrl?'<p><a href="'+r.sourceUrl+'" target="_blank" rel="noopener">Bekijk origineel recept ↗</a></p>':'';
-  detail.innerHTML='<h3>'+r.icon+' '+r.title+'</h3><p>'+r.time+' min · '+(r.tags||[]).join(' · ')+' · '+s.p+' personen</p><h4>Ingrediënten</h4><ul>'+ingredientHtml+'</ul>'+source;
-  modal.classList.add('on');
-}
-function save(){
-  localStorage.p=s.p;localStorage.d=s.d;localStorage.b=s.b;localStorage.off=s.off;
-  localStorage.soup=s.soup?'1':'0';localStorage.filter=s.filter;localStorage.done=JSON.stringify(s.done);
-}
-function render(){
-  persons.value=s.p;dishes.value=s.d;budget.value=s.b;
-  personsOut.textContent=s.p+' personen';dishesOut.textContent=s.d+' gerechten';budgetOut.textContent='€ '+s.b;
-  $$('.chip').forEach(c=>c.classList.toggle('on',c.textContent.trim()===s.filter));
-
-  const selected=chosen();
-  recipeGrid.innerHTML=selected.length?selected.map(r=>card(r,rec.indexOf(r))).join(''):'<div class="card empty">Geen recepten gevonden voor deze keuze.</div>';
-  allRecipes.innerHTML=rec.map((r,i)=>card(r,i)).join('');
-
-  const t=selected.reduce((a,r)=>a+(r.price4||0)*s.p/4,0)+(s.soup?(soupRecipe.price4||0)*s.p/4:0);
-  const pc=Math.min(100,Math.round(t/s.b*100));
-  total.textContent=euro(t);caption.textContent='van je budget van € '+s.b;pct.textContent=pc+'%';ring.style.setProperty('--pct',pc+'%');
-  soupToggle.classList.toggle('on',s.soup);
-
-  shopPreview.innerHTML=renderShop(6);
-  fullShop.innerHTML=renderShop(0);
-  const activeKeys=new Set(shoppingItems().map(x=>x.key));
-  s.done=s.done.filter(k=>activeKeys.has(k));
-  const count=activeKeys.size,done=s.done.length;
-  progress.textContent=done+' van '+count+' afgevinkt';
-
-  save();
-  $$('[data-r]').forEach(el=>el.onclick=()=>showRecipe(rec[+el.dataset.r]));
-  $$('#fullShop .shoprow').forEach(el=>el.onclick=()=>{
-    const key=decodeURIComponent(el.dataset.item);
-    s.done=s.done.includes(key)?s.done.filter(x=>x!==key):[...s.done,key];
-    render();
-  });
-}
-persons.oninput=e=>{s.p=+e.target.value;render()};
-dishes.oninput=e=>{s.d=+e.target.value;s.off=0;render()};
-budget.oninput=e=>{s.b=+e.target.value;render()};
-generate.onclick=refresh.onclick=()=>{const pool=filteredRecipes();s.off=pool.length?(s.off+1)%pool.length:0;render()};
-soup.onclick=()=>{s.soup=!s.soup;render()};
-$$('.chip').forEach(c=>c.onclick=()=>{s.filter=c.textContent.trim();s.off=0;render()});
-$$('[data-go]').forEach(b=>b.onclick=()=>{let n=b.dataset.go;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===n));$$('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.go===n));scrollTo(0,0)});
-close.onclick=()=>modal.classList.remove('on');
-modal.onclick=e=>{if(e.target===modal)modal.classList.remove('on')};
-render();
-</script>
-<script src="replace-recipe.js"></script>
+<script src="v3.js?v=3"></script>
 </body>
 </html>
