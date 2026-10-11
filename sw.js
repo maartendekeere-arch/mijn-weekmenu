@@ -1,4 +1,4 @@
-const VERSION = "weekmenu-v4-20261011";
+const VERSION = "weekmenu-v5-20261011";
 const ASSETS = ["./", "./index.html", "./recipes.js", "./v3.js", "./v3.css", "./manifest.json", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(ASSETS)));
