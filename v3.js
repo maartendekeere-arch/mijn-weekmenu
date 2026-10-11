@@ -82,7 +82,8 @@ function photo(r){
  (url(r.image)?'<img src="'+html(r.image)+'" loading="lazy" alt="Foto van '+html(r.title)+'" onerror="this.parentNode.classList.add(&quot;is-missing&quot;);this.remove()"><span class="missing" style="display:none">Foto nog niet beschikbaar</span>':'<span class="missing">Foto nog niet beschikbaar</span>')+"</div>";
 }
 function meal(r,i,library){
- return '<article class="meal">'+photo(r)+'<div class="meal-body"><span class="badge">'+html(r.time||30)+' min</span>'+
+ var picture=url(r.sourceUrl)?'<a class="photolink" href="'+html(r.sourceUrl)+'" target="_blank" rel="noopener noreferrer" aria-label="Open recept van '+html(r.title)+'">'+photo(r)+'</a>':photo(r);
+ return '<article class="meal">'+picture+'<div class="meal-body"><span class="badge">'+html(r.time||30)+' min</span>'+
  (r.tags||[]).slice(0,2).map(function(t){return '<span class="badge">'+html(t)+"</span>"}).join("")+
  '<h4>'+html(r.title)+'</h4><div class="meta">'+html(r.source||"Eigen recept")+' · '+s.p+' personen</div>'+
  '<div class="cost">± '+money(num(r.price4,0)*s.p/4)+'</div><div class="actions">'+
