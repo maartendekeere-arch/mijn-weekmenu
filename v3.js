@@ -6,7 +6,7 @@ var soup=window.WEEKMENU_SOUP||{title:"Tomatensoep",price4:4.60,ingredients:[]};
 var cats=[["vlees","🥩 Vlees"],["vis","🐟 Vis"],["vega","🥦 Vegetarisch"],["kids","👨‍👩‍👧 Kindvriendelijk"]];
 var aisles=["Groenten & fruit","Aardappelen","Beenhouwerij","Vis","Zuivel & kaas","Diepvries","Droge voeding","Conserven","Wereldkeuken","Sauzen","Overig"];
 var old={};try{old=JSON.parse(localStorage.getItem("mijn-weekmenu-v3")||"{}")||{}}catch(e){}
-function num(n,f){n=+n;return Number.isFinite(n)?n:f}
+function num(n,f){if(n===null||n===undefined||n==='')return f;n=+n;return Number.isFinite(n)?n:f}
 function clamp(n,lo,hi){return Math.min(hi,Math.max(lo,n))}
 var s={
  p:clamp(num(old.p,num(localStorage.getItem("p"),4)),1,8),
@@ -43,8 +43,11 @@ function generate(){
  cats.forEach(function(c){
   var pool=rec.filter(function(r){return belongs(r,c[0])});
   for(var j=0;j<num(s.counts[c[0]],0);j++){
-   var pick=pool.find(function(r){return !used.has(r.id)&&((rec.indexOf(r)+s.seed+j)%Math.max(1,pool.length))===0});
-   if(!pick){var fresh=pool.filter(function(r){return !used.has(r.id)});pick=fresh.length?fresh[(s.seed+j)%fresh.length]:null}
+   var fresh=pool.filter(function(r){return !used.has(r.id)});
+   fresh.sort(function(x,y){return Number(!!y.image)-Number(!!x.image)||rec.indexOf(x)-rec.indexOf(y)});
+   var preferred=fresh.filter(function(r){return !!r.image});
+   var choices=preferred.length&&s.seed%3!==2?preferred:fresh;
+   var pick=choices.length?choices[(s.seed+j)%choices.length]:null;
    if(!pick)pick=rec.find(function(r){return !used.has(r.id)});
    if(pick){used.add(pick.id);s.plan.push(pick.id)}
   }
@@ -78,7 +81,7 @@ function source(r,short){
 }
 function photo(r){
  return '<div class="photo"><span class="emoji">'+html(r.icon||"🍴")+'</span>'+
- (url(r.image)?'<img src="'+html(r.image)+'" loading="lazy" alt="Foto van '+html(r.title)+'" onerror="this.remove()">':'<span class="missing">Foto nog niet beschikbaar</span>')+"</div>";
+ (url(r.image)?'<img src="'+html(r.image)+'" loading="lazy" alt="Foto van '+html(r.title)+'" onerror="this.parentNode.classList.add(&quot;is-missing&quot;);this.remove()"><span class="missing" style="display:none">Foto nog niet beschikbaar</span>':'<span class="missing">Foto nog niet beschikbaar</span>')+"</div>";
 }
 function meal(r,i,library){
  return '<article class="meal">'+photo(r)+'<div class="meal-body"><span class="badge">'+html(r.time||30)+' min</span>'+
