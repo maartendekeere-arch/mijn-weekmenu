@@ -30,10 +30,8 @@ function belongs(r,cat){
  if(cat==="kids")return ts.includes("Kids");
  if(cat==="vlees"){
   if(!ts.some(function(x){return ["Vlees","Kip","Rund","Varken","Gevogelte"].includes(x)}))return false;
-  if(ts.includes("Kip")&&!s.meat.includes("Kip")&&!s.meat.includes("Gevogelte"))return false;
-  if(ts.includes("Rund")&&!s.meat.includes("Rund"))return false;
-  if(ts.includes("Varken")&&!s.meat.includes("Varken"))return false;
-  return true;
+  var types=r.meatTypes||(ts.includes("Kip")?["Kip","Gevogelte"]:ts.includes("Rund")?["Rund"]:ts.includes("Varken")?["Varken"]:["Rund","Varken"]);
+  return types.some(function(t){return s.meat.includes(t)});
  }
  return true;
 }
@@ -205,7 +203,7 @@ document.addEventListener("click",function(e){
  var b=e.target.closest("button");if(!b)return;
  if(b.dataset.go){s.tab=b.dataset.go;render();window.scrollTo(0,0)}
  else if(b.dataset.adjust)change(b.dataset.adjust,num(b.dataset.delta,0));
- else if(b.dataset.meat){var m=b.dataset.meat;s.meat=s.meat.includes(m)?s.meat.filter(function(x){return x!==m}):s.meat.concat(m);s.seed++;generate();render()}
+ else if(b.dataset.meat){var m=b.dataset.meat;if(s.meat.length===1&&s.meat.includes(m)&&s.counts.vlees>0){notice("Kies minstens één vleessoort of zet het aantal vleesgerechten op nul.");return}s.meat=s.meat.includes(m)?s.meat.filter(function(x){return x!==m}):s.meat.concat(m);s.seed++;generate();render()}
  else if(b.id==="regen"){s.seed++;generate();render()}
  else if(b.id==="soupbtn"){s.soup=!s.soup;render()}
  else if(b.dataset.swap!==undefined)picker(+b.dataset.swap);
