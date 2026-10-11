@@ -206,6 +206,21 @@ window.WEEKMENU_RECIPES.push(
 );
 })();
 
+
+(function(){
+const I=(name,qty,unit,aisle,storage)=>({name,qty,unit,aisle,storage});
+const g="Groenten & fruit",d="Droge voeding",w="Wereldkeuken",v="Vers",p="Voorraad";
+window.WEEKMENU_RECIPES.push(
+{id:"runderwok-chinese-kool",title:"Runderwok met Chinese kool",icon:"🥩",time:25,tags:["Vlees","Rund","Snel","Rijst"],meatTypes:["Rund"],price4:20.50,source:"Colruyt",
+sourceUrl:"https://www.colruyt.be/nl/recepten/runderwok-met-chinese-kool",image:"",
+ingredients:[I("Gemarineerde runderreepjes",500,"g","Beenhouwerij",v),I("Chinese kool",0.5,"st.",g,v),I("Wokmix Oriental",400,"g",g,v),I("Koriander",1,"plantje",g,v),I("Soba noedels",270,"g",d,p),I("Cashewnoten",40,"g",d,p),I("Arachideolie",2,"el",d,p)]},
+{id:"varkensmignonette-spinazie",title:"Varkensmignonette met spinazie en cambozola",icon:"🥩",time:30,tags:["Vlees","Varken"],meatTypes:["Varken"],price4:22.80,source:"Colruyt",
+sourceUrl:"https://www.colruyt.be/nl/recepten/varkensmignonette-met-cambozolasaus-en-spinazie",image:"",
+ingredients:[I("Varkensmignonette",4,"st.","Beenhouwerij",v),I("Verse spinazie",800,"g",g,v),I("Aardappelblokjes voorgekookt",500,"g","Aardappelen",v),I("Ui",1,"st.",g,v),I("Knoflook",1,"teen",g,v),I("Zongedroogde tomaten",2,"st.",g,v),I("Cambozola",100,"g","Zuivel & kaas",v),I("Boter",1,"el","Zuivel & kaas",v),I("Walnoten",2,"el",d,p),I("Olijfolie",2,"el",d,p)]}
+);
+[["tacos-gehakt",["Rund","Varken"]],["kip-groenten-krieltjes",["Kip","Gevogelte"]],["rijst-kip-groenten",["Kip","Gevogelte"]],["kokos-kip-boontjes",["Kip","Gevogelte"]],["indische-kip-butternut",["Kip","Gevogelte"]]].forEach(([id,types])=>{const r=window.WEEKMENU_RECIPES.find(x=>x.id===id);if(r)r.meatTypes=types;});
+})();
+
 window.WEEKMENU_SOUP = {
   id: "tomatensoep",
   title: "Tomatensoep",
