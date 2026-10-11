@@ -21,3 +21,6 @@
 
 /* Toon de correcte plaatsaanduiding wanneer een externe receptfoto niet geladen wordt. */
 .photo.is-missing .missing{display:block!important}
+
+.photolink{display:block;color:inherit;text-decoration:none;align-self:stretch}
+.photolink .photo{height:100%}
