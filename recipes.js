@@ -155,6 +155,57 @@ window.WEEKMENU_RECIPES = [
   }
 ];
 
+
+(function(){
+const I=(name,qty,unit,aisle,storage)=>({name,qty,unit,aisle,storage});
+const g="Groenten & fruit",a="Aardappelen",d="Droge voeding",c="Conserven",w="Wereldkeuken",z="Zuivel & kaas";
+const v="Vers",p="Voorraad",f="Diepvries";
+window.WEEKMENU_RECIPES.push(
+{
+ id:"zalm-erwtjes-munt",
+ title:"Zalm met erwtjes, munt en couscous",icon:"🐟",time:30,tags:["Vis","Rijst","Snel"],price4:22.50,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/zalm-met-erwtjes-en-munt",image:"",
+ ingredients:[I("Zalmhaasjes (diepvries)",4,"st.","Vis",f),I("Erwten",600,"g","Diepvries",f),I("Waterkers",2,"bos",g,v),I("Lente-ui",3,"st.",g,v),I("Citroen",2,"st.",g,v),I("Verse munt",1,"takje",g,v),I("Couscous",300,"g",d,p),I("Notenmix",3,"el",d,p),I("Boter",1,"el",z,v),I("Kippenbouillon",1,"blokje",d,p),I("Olijfolie",3,"el",d,p)]
+},
+{
+ id:"zalm-broccoli-raapjes",
+ title:"Zalm uit de oven met broccoli en raapjes",icon:"🐟",time:40,tags:["Vis","Oven"],price4:23.90,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/zalm-in-de-oven-met-broccoli-en-raapjes",image:"",
+ ingredients:[I("Zalmfilet",4,"st.","Vis",v),I("Broccoli",1,"st.",g,v),I("Rapen",1,"bos",g,v),I("Peterselie",1,"plantje",g,v),I("Aardappelen",600,"g",a,v),I("Sjalot",1,"st.",g,v),I("Parmezaanse kaas",50,"g",z,v),I("Kruidenkaas",2,"el",z,v),I("Boter",1,"el",z,v),I("Melk",400,"ml",z,v),I("Bloem",2,"el",d,p),I("Olijfolie",2,"el",d,p),I("Laurier",1,"blad",d,p)]
+},
+{
+ id:"zeeuwse-kerrierijst",
+ title:"Oosterse rijstschotel met zeevruchten",icon:"🍤",time:20,tags:["Vis","Rijst","Snel"],price4:17.80,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/oosterse-kerrierijstschotel-met-zeevruchten",image:"",
+ ingredients:[I("Zeevruchtencocktail",300,"g","Diepvries",f),I("Chinamix wokgroenten",500,"g","Diepvries",f),I("Gekookte ham",4,"sneetjes","Beenhouwerij",v),I("Basmati rijst",1,"kop",d,p),I("Ketjap manis",2,"el",w,p),I("Zonnebloemolie",2,"el",d,p),I("Currypoeder",1,"el",d,p)]
+},
+{
+ id:"kokos-kip-boontjes",
+ title:"Kokoscurry met kip, boontjes en rijst",icon:"🍛",time:25,tags:["Kip","Vlees","Rijst","Snel"],price4:18.60,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/kokoscurry-met-kip-boontjes-en-basmatirijst",image:"",
+ ingredients:[I("Kippenhaasjes",500,"g","Beenhouwerij",v),I("Prinsessenbonen",400,"g",g,v),I("Broccoli",1,"st.",g,v),I("Peterselie",1,"plantje",g,v),I("Basmati rijst",250,"g",d,p),I("Kokosmelk",400,"ml",w,p),I("Olijfolie",1,"el",d,p),I("Groenecurrypasta",4,"kl",w,p)]
+},
+{
+ id:"indische-kip-butternut",
+ title:"Indische curry met kip en butternut",icon:"🥘",time:45,tags:["Kip","Vlees","Rijst"],price4:19.70,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/indische-curry-met-kip-en-butternut",image:"",
+ ingredients:[I("Kippenblokjes",500,"g","Beenhouwerij",v),I("Butternut",500,"g",g,v),I("Gele raap",1,"st.",g,v),I("Courgette",1,"st.",g,v),I("Koriander",1,"plantje",g,v),I("Gember",2,"cm",g,v),I("Citroengras",1,"st.",g,v),I("Zoete aardappel",1,"st.",a,v),I("Rode ui",1,"st.",g,v),I("Thaise rijst",250,"g",d,p),I("Kokosmelk",400,"ml",w,p),I("Olijfolie",2,"el",d,p),I("Groenecurrypasta",3,"el",w,p),I("Kippenbouillon",0.5,"blokje",d,p),I("Currypoeder",2,"el",d,p)]
+},
+{
+ id:"curry-kikkererwten-spinazie",
+ title:"Curry met kikkererwten en spinazie",icon:"🥬",time:30,tags:["Vegetarisch","Budget","Snel"],price4:14.20,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/curry-met-kikkererwten-en-spinazie",image:"",
+ ingredients:[I("Spinazie",400,"g",g,v),I("Zoete aardappel",500,"g",a,v),I("Sjalot",3,"st.",g,v),I("Knoflook",2,"teen",g,v),I("Plantaardige yoghurt",4,"el",z,v),I("Pitabroodjes",4,"st.",d,p),I("Pompoenpitten",2,"el",d,p),I("Kikkererwten",330,"g",c,p),I("Kokosmelk",400,"ml",w,p),I("Rode currypasta",2,"el",w,p),I("Olijfolie",1,"el",d,p)]
+},
+{
+ id:"thaise-kokoscurry-tofoe",
+ title:"Thaise kokoscurry met tofoe",icon:"🥦",time:35,tags:["Vegetarisch","Budget"],price4:15.70,
+ source:"Colruyt",sourceUrl:"https://www.colruyt.be/nl/recepten/thaise-kokoscurry-met-tofoe",image:"",
+ ingredients:[I("Tofoe natuur",270,"g",z,v),I("Broccolimix",400,"g","Diepvries",f),I("Prinsessenbonen",200,"g",g,v),I("Rode paprika",1,"st.",g,v),I("Rode chilipeper",1,"st.",g,v),I("Koriander",1,"plantje",g,v),I("Citroengras",1,"st.",g,v),I("Gember",2,"cm",g,v),I("Ui",1,"st.",g,v),I("Knoflook",1,"teen",g,v),I("Kokosmelk",400,"ml",w,p),I("Olijfolie",3,"el",d,p),I("Rijstolie",1,"el",d,p),I("Komijnzaadjes",1,"kl",d,p)]
+}
+);
+})();
+
 window.WEEKMENU_SOUP = {
   id: "tomatensoep",
   title: "Tomatensoep",
