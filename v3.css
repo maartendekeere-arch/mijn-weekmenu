@@ -18,3 +18,6 @@
 .add{display:grid;grid-template-columns:2fr 1fr 1fr;gap:7px}.add input,.add select,.search{width:100%;min-width:0;padding:10px;border:1px solid #dce4dd;border-radius:9px;background:#fff;font-size:13px}.search{margin-bottom:8px}
 .modal{display:none;position:fixed;inset:0;background:#10271c88;align-items:flex-end;justify-content:center;z-index:40}.modal.on{display:flex}.sheet{width:min(600px,100%);border-radius:24px 24px 0 0;background:#fff;padding:20px;max-height:88vh;overflow:auto}.sheet h3{font-size:22px;margin:12px 0}.picker{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #e7e9e4;padding:12px 0}.picker strong{display:block;font-size:13px}.picker small{color:var(--muted);font-size:11px}.detailphoto{width:100%;height:180px;object-fit:cover;border-radius:12px}.empty{text-align:center;padding:20px;color:var(--muted);font-size:13px}
 @media(min-width:700px){body{padding:20px}.app{border-radius:26px}}@media print{.nav,.header,.buttons,.stock,.panel,.modal{display:none!important}.tabs{display:none!important}.tabs[data-view=list]{display:block!important}.app{padding:0;max-width:none;background:white}.list-group{break-inside:avoid;box-shadow:none}}
+
+/* Toon de correcte plaatsaanduiding wanneer een externe receptfoto niet geladen wordt. */
+.photo.is-missing .missing{display:block!important}
